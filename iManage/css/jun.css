@@ -1,0 +1,139 @@
+.searchInputText
+{
+      width: 60%;
+      height: 25px;
+      margin: 0 auto;
+      border: none; <-- This thing here
+      border:solid 1px #ccc;
+      border-radius: 7px;
+}
+
+.customerTableHeader
+{
+	font-family:Tw Cen MT;
+    src: url(../fonts/Tw Cen MT.ttf);
+}
+
+.ajax-loader2
+{
+    position: absolute;
+    left: 40%;
+    top: 80%;
+    // margin-left: -170px; /** -1 * image width / 2 */
+    //margin-top: -140px;  /* -1 * image height / 2 */
+    display: block;   
+    font-size: 18px;
+    font-weight: bold;
+    font-family:News Gothic MT;
+    color: white;
+}
+
+.categoryRow
+{
+	border-bottom:1pt solid #cecdd2;
+}
+
+.productListTableIdHeader
+{
+	background-color:#bdbdc3;
+}
+
+.radiusImg
+{
+	border-radius: 10px;
+
+	-moz-border-radius: 10px;
+	
+	-webkit-border-radius: 10px;
+}
+
+.custRow
+{
+   border-bottom:1pt solid #cecdd2;
+}
+
+.orderDetailTableHeader
+{
+	 background-color:#bdbdc3;
+}
+
+.orderRow
+{
+   border-bottom:1pt solid #cecdd2;
+   font-size: 12px;
+}
+
+.logoVersion {
+    position: fixed;
+    top: 95%;
+    left: 95%;
+    margin-left: -100px;
+    margin-top: -93px;
+}
+
+.textLogoVersion {
+    position: fixed;
+    bottom: 1.5%;
+    right: 5.3%;
+    margin-left: -100px;
+    margin-top: -93px;
+    font-family: 'roboto';
+    font-size: 16px;
+    color: #71ABF8;
+}
+
+.ordersTableId
+{
+    /*background-color:#def3fc; */ 
+    width:90%; 
+    /*border:1px solid white;*/
+    border-collapse:collapse;
+}
+
+.orderTableHeader
+{
+    border-bottom:1pt solid gray;
+ 
+    background-color:#bdbdc3;
+    padding-left:16px;
+   	/*font-family:News Gothic MT;*/
+    font-size: 12px;
+    color:#000000;
+    
+    text-align: center;
+    
+    height:30px;
+}
+
+.filePathUpdateDate
+{
+	font-family:Tw Cen MT;
+    src: url(../fonts/Tw Cen MT.ttf);
+}
+
+.productOptionalTableHeader
+{
+    border-bottom:1pt solid gray;
+ 
+    background-color:#bdbdc3;
+    padding-left:16px;
+   	/*font-family:News Gothic MT;*/
+    color:#000000;
+    
+    text-align: center;
+    
+    height:30px;
+}
+
+.productOptionalRow
+{
+   border-bottom:1pt solid gainsboro;
+}
+
+.productOptionalTable
+{
+    /*background-color:#def3fc; */ 
+    width:90%; 
+    /*border:1px solid white;*/
+    border-collapse:collapse;
+}

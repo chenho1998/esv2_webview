@@ -1,0 +1,19 @@
+.bestprice-form{
+	margin:auto;
+}
+
+@media (min-width : 768px) {
+	.bestprice-form{
+		width:50%; 
+	}
+}
+
+@media (max-width: 767px){
+	.bestprice-form{
+		width: 100%;
+	}
+
+	.best-price-height{
+		height: 10vw;
+	}
+}

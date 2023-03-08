@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>Doc PDF</title>
+      <style>
+.remark { text-decoration:underline; font-weight:bold } .leader_name {font-size: 20px;line-height: 20px;} * {font-size: 20px;line-height: 20px; font-family: Arial, Helvetica, sans-serif;} .bodyPadding {padding: 0px;} .half {width: 50%;padding: 0px;} p {padding: 0px;margin: 5px;} tr,td {margin: 0px;padding: 0px;page-break-inside: avoid;page-break-after: auto;} .topMargin {margin-top: 0px;} .topSecond {margin: 0px;padding-left: 5px;} .topHeader {margin: 0px;text-align: right;} .address {margin: 0px;margin-left: 10px;} .tableBorder {page-break-inside:auto;width: 100%;border: 1px solid black;border-collapse: collapse;} .tableBorderThin {page-break-inside:auto;width: 100%;border: 1px solid black;border-collapse: collapse;}.tableWithoutBorder {page-break-inside:auto;width: 100%; margin-left:-1px; } .rowTd {padding-left: 5px;text-align: center;border-right: 1px solid black;} img {object-fit: fill;} table{page-break-inside:auto;} .right-child{width: 25%;font-weight: bold;text-align: left;padding-right: 5px;vertical-align: top; font-size:15px}.left-child{width: 75%; margin-left:5px; vertical-align: top;font-size:15px}.fifty-percent{width: 50%;}.def-border{border:1px solid black;border-collapse: collapse;} .top-align{ vertical-align: top; font-weight: bold; } hr { border-top: 0px;} i { font-size:20px; font-weight:bold; } .customremark{ font-size:13px } .forty-percent { width:40% } .twenty-percent { width:20% }</style>
+   </head>
+   <body>
+      <div class="bodyPadding topMargin">
+         <img src="data:image/png;base64,@header" alt="header" style="width:100%;margin-bottom:20px;"> 
+         <table class="tableWithoutBorder">
+            <tr>
+               <td class="fifty-percent">
+                  <table class="tableWithoutBorder">
+                     <tr>
+                        <td class="right-child">Code </td>
+                        <td class="top-align">:</td>
+                        <td class="left-child">@cust_code </td>
+                     </tr>
+                  </table>
+               </td>
+               <td class="fifty-percent">
+                  <table class="tableWithoutBorder">
+                     <tr>
+                        <td class="right-child">Date </td>
+                        <td class="top-align">:</td>
+                        <td class="left-child">@document_date </td>
+                     </tr>
+                  </table>
+               </td>
+            </tr>
+            <tr>
+               <td class="fifty-percent">
+                  <table class="tableWithoutBorder">
+                     <tr>
+                        <td class="right-child"> Customer </td>
+                        <td class="top-align">:</td>
+                        <td class="left-child">@customer_name </td>
+                     </tr>
+                  </table>
+               </td>
+               <td class="fifty-percent">
+                  <table class="tableWithoutBorder">
+                     <tr>
+                        <td class="right-child"> Doc ID </td>
+                        <td class="top-align">:</td>
+                        <td class="left-child">@document_id </td>
+                     </tr>
+                  </table>
+               </td>
+            </tr>
+            <tr>
+               <td class="fifty-percent">
+                  <table class="tableWithoutBorder">
+                     <tr>
+                        <td class="right-child"> Term </td>
+                        <td class="top-align">:</td>
+                        <td class="left-child">@termcode </td>
+                     </tr>
+                  </table>
+               </td>
+               <td class="fifty-percent">
+                  <table class="tableWithoutBorder">
+                     <tr>
+                        <td class="right-child"> Agent </td>
+                        <td class="top-align">:</td>
+                        <td class="left-child">@salesperson </td>
+                     </tr>
+                  </table>
+               </td>
+            </tr>
+            <tr>
+               <td class="fifty-percent">
+                  <table class="tableWithoutBorder">
+                     <tr>
+                        <td class="right-child"> Billing </td>
+                        <td class="top-align">:</td>
+                        <td class="left-child">@address </td>
+                     </tr>
+                  </table>
+               </td>
+               <td class="fifty-percent">
+                  <table class="tableWithoutBorder">
+                     <tr>
+                        <td class="right-child"> </td>
+                        <td class="top-align"> </td>
+                        <td class="left-child">  </td>
+                     </tr>
+                  </table>
+               </td>
+            </tr>
+            @branch_info@extra_udf 
+         </table>
+         <br> 
+         <table class="def-border" style="width:100%;">
+            <thead>
+               <tr>
+                  <th width="5%" class="def-border">No</th>
+                  <th width="45%" class="def-border">Description</th>
+                  <th width="12%" class="def-border">Qty</th>
+                  <th width="12%" class="def-border">Unit Price</th>
+                  <th width="12%" class="def-border">SST(10%)</th>
+                  <th width="13%" class="def-border" style="text-align:right;padding-right:5px;">Sub Total</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>@product_line </tr>
+            </tbody>
+            <tfoot>
+               <tr>
+                  <td class="def-border"></td>
+                  <td class="def-border"></td>
+                  <td class="def-border"></td>
+                  <td class="def-border"></td>
+                  <td class="def-border" style="padding-right:5px;text-align:right;padding-top:10px;padding-bottom:10px;"><strong>TOTAL</strong></td>
+                  <td class="def-border" style="padding-right:5px;text-align:right;padding-top:10px;padding-bottom:10px;"><strong>@grand_sst</strong></td>
+               </tr>
+            </tfoot>
+         </table>
+         <p style="font-size: 20px;font-weight: bold;margin-left:-1px"><i>@delivery_note</i></p>
+         @delivery_date @udf_field
+        <div style="display:none;margin-bottom:20px;">
+            <div class="img-with-text">
+               <img style="float:right;" src="@signature" width="150px" height="100px"/>
+               <p style="float:center">Date: @current_time</p>
+            </div>
+         </div>
+        <img src="data:image/png;base64,@footer" alt="footer" style="margin-top: 5px">  
+        
+        <table style="page-break-inside: avoid !important;
+    margin: 4px 0 4px 0;margin-top:30px;width:100%;">
+          <tr>
+            <td class="forty-percent">
+              <table class="tableWithoutBorder">
+                <tr>
+                  <td>
+                    <p class="customremark">
+                      NILAI MAYANG SDN. BHD.
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+            <td class="twenty-percent"></td>
+            <td class="forty-percent">
+              <table class="tableWithoutBorder">
+                <tr>
+                  <td>
+                    <p class="customremark">
+                      I hereby accept the terms & conditions as mentioned above
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+          	<td style="height:15px"></td>
+            <td style="height:15px"></td>
+            <td style="height:15px"></td>
+          </tr>
+          <tr>
+          	<td style="height:15px"></td>
+            <td style="height:15px"></td>
+            <td style="height:15px"></td>
+          </tr>
+          <tr>
+          	<td class="forty-percent">
+              <table class="tableWithoutBorder">
+                <tr>
+                  <td>
+                  <p style="font-size:20px;text-align:center;">@salesperson</p>
+                  	<hr style="border-bottom:1px solid black;width:100%;float:left"/>
+                    <p class="customremark">Authorised Signatory</p>
+                    <p class="customremark">Name: @name_salesperson</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+            <td class="twenty-percent"></td>
+            <td class="forty-percent">
+              <table class="tableWithoutBorder">
+                <tr>
+                  <td>
+                  	<p style="font-size:20px">.</p>
+                  	<hr style="border-bottom:1px solid black;width:100%;float:right"/>
+                    <p class="customremark">Authorised Signatory & Company Chop</p>
+                    <p class="customremark">Name: </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </div>
+   </body>
+</html>
+

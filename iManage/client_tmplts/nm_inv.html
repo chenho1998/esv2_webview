@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+      <style>table { page-break-inside:auto;border-collapse: collapse; } tr { page-break-inside:avoid; page-break-after:auto;text-align:left } thead { display:table-header-group } tfoot { display:table-footer-group } body {  font-size: 14px;  line-height: 0.2em;}table td, table td * { vertical-align: top;white-space:pre;} tr.spaceUnder>td {  padding-bottom: 0.8em;} tr.spaceMn>td {  padding-bottom: 0.2em;} .small-text{ font-size: 12px; font-weight: normal;margin-left: 5px;}.small-text-womargin{ font-size: 14px; font-weight: normal; line-height: 0.1em; margin-left:-5px;}.main-div{  padding: 10px;}.title{ font-size: 15px;  line-height: 0.1em;  font-weight: bold;  color: black;margin-left:-5px;}.footer {  position: fixed;  left: 0;  bottom: 0;  width: 98%;  border-top: 1px solid black;  border-bottom: 1px solid black;  height: 100px;  margin-bottom: 10px;  align-self: center;  margin-left: 1%;} .right-text{ display:block;text-align:right } .left-text{ display:block;text-align:left;margin-left:0; } .center-text { display:block;text-align:center } p-wo-margin{line-height: 0.1em;margin:0px;} .title-left{font-size: 15px; font-weight: bold; color: black;text-align:left;} .noSpace {  padding:0px;margin:0px;height:20px; } .extraTop { margin-top:10px; } .tiny-text { font-size: 12px; font-weight: normal; line-height: 0.1em; margin-left:-5px; } .btm-td {text-align:right;line-height:1em;} .white-text{color:white} .bold-text{font-weight:bold; line-height: 0.9em;} .border-top-bottom { border-top:1px solid black; border-bottom: 1px solid black; padding-top:5px; } </style>
+   </head>
+   <body>
+      <table style="width:100%;height:80px">
+         <col width="20%">
+         <col width="80%">
+         <tr>
+            <td style="align-items:left;height:80px;"> <img src="data:image/png;base64,@base64" width="120px" /> 
+            </td>
+            <td style="align-items:left;height:80px;">
+               <h2 style="line-height:18px;line-height:0.1em">@client<label class="small-text" style="margin-top:5px;">@sub_client</label></h2><p class="p-wo-margin">@address @city @state @zipcode</p><p class="p-wo-margin">Tel: @phone Fax: @fax</p><p class="p-wo-margin">E-mail: invoicing@nilaimayang.com.my (Billings), accounting@nilaimayang.com.my (Remittance) Website: @website</p>
+            </td>
+         </tr>
+      </table>
+      <div class="main-div">
+         <hr>
+         <table style="width:100%;height:80px">
+            <col width="40%">
+            <col width="5%">
+            <col width="55%">
+            <tr>
+                <td style="align-items:left;height:80px;">
+                    <p class="small-text-womargin" style="margin-left:1px;font-weight:bold">Billing Address</p><p class="title" style="margin-left:1px">@cust_name</p><div style="line-height:1em;white-space: pre-wrap;
+    word-break: break-word;">@address1<br>@address2<br>@address3<br>@address4</div><p>Tel: @phone1 Fax: @fax1</p>
+                    <div class="title-left extraTop">SHIP TO: @branchname</div>
+                    <p style="line-height:1em;">@daddress1<br>@daddress2<br>@daddress3</p>
+                    <div class="title-left extraTop">ATTN: @dattention</div>
+                    <div class="extraTop">TEL: @dphone1</div>
+                </td>
+                <td></td>
+                <td style="align-items:left;">
+                    <h2 style="line-height:0.1em;margin:0px;margin-top:10px;margin-left:2px">@doctype_caps</h2>
+                    <table style="width:100%;">
+                        <col width="50%">
+                        <col width="50%">
+                        <tr><td></td><td></td></tr>
+                        <tr><td></td><td></td></tr>
+                        <tr><td></td><td></td></tr>
+                        <tr><td></td><td></td></tr>
+                        <tr><td></td><td></td></tr>
+                        <tr class="spaceMn">
+                            <td>
+                                <div class="title-left">INVOICE NO</div>
+                            </td>
+                            <td>
+                                <div>: @doc_code</div>
+                            </td>
+                        </tr>
+                        <tr class="spaceMn">
+                            <td>
+                                <div class="title-left">DATE</div>
+                            </td>
+                            <td>
+                                <div>: @doc_date</div>
+                            </td>
+                        </tr>
+                        <tr class="spaceMn">
+                            <td>
+                                <div class="title-left">P.O. NUMBER/DATE</div>
+                            </td>
+                            <td>
+                                <div>: 
+                                    <p style="margin-top:-2px;margin-left:5px;">@docref1</p>
+                                    <p style="margin-top:0;margin-left:5px;margin-bottom:0">@docref2</p>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="spaceMn">
+                            <td>
+                                <div class="title-left">PAYMENT TERMS</div>
+                            </td>
+                            <td>
+                                <div>: @terms</div>
+                            </td>
+                        </tr>
+                        <tr class="spaceMn">
+                            <td>
+                                <div class="title-left">SALES PERSON</div>
+                            </td>
+                            <td>
+                                <div>: @staff_code</div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+         <hr>
+         <table width="100%">
+            <col width="14%">
+            <col width="14%">
+            <col width="14%">
+            <col width="14%">
+            <col width="14%">
+            <col width="14%">
+            <col width="14%">
+            <tr>
+                <td>
+                    <label class="tiny-text-womargin left-text"> CUSTOMER CODE </label>  
+                    <p class="title left-text"> @cust_code  </p>
+                </td>
+                <td>
+                  <label class="tiny-text-womargin left-text">  </label>  
+                  <p class="title left-text">   </p>
+               </td>
+               <td>
+                  <label class="tiny-text-womargin left-text"> D.O.NUMBER </label>  
+                  <p class="title left-text"> @0.fromdocno  </p>
+               </td>
+               <td>
+                  <label class="tiny-text-womargin left-text"> D.O.DATE </label>  
+                  <p class="title left-text"> @0.dodate  </p>
+               </td>
+               <td>
+                  <label class="tiny-text-womargin left-text"> </label>  
+                  <p class="title left-text"> </p>
+               </td>
+               <td>
+                  <label class="tiny-text-womargin left-text"> </label>  
+                  <p class="title left-text">  </p>
+               </td>
+               <td>
+                  <label class="tiny-text-womargin left-text"> </label>  
+                  <p class="title left-text">  </p>
+               </td>
+            </tr>
+         </table>
+         <table width="100%">
+            <col width="2%">
+            <col width="43%">
+            <col width="5%">
+            <col width="10%">
+            <col width="10%">
+            <col width="10%">
+            <col width="10%">
+            <col width="10%">
+            <tr>
+               <td class="small-text-womargin border-top-bottom bold-text">No</td>
+               <td class="small-text-womargin border-top-bottom bold-text">Description</td>
+               <td class="small-text-womargin border-top-bottom bold-text">Qty</td>
+               <td class="small-text-womargin border-top-bottom bold-text" style="text-align: center;">Price/Unit</td>
+               <td class="small-text-womargin border-top-bottom bold-text" style="text-align: center;">Total Exd.<br>Tax(RM)</td>
+               <td class="small-text-womargin border-top-bottom bold-text" style="text-align: right;">Tax Amt</td>
+               <td class="small-text-womargin border-top-bottom bold-text" style="text-align: right;">Total Ind.<br>Tax (MYR)</td>
+               <td class="small-text-womargin border-top-bottom bold-text" style="text-align: right;">Tax</td>
+            </tr>
+            <tr class="spaceUnder">
+               <td class="small-text-womargin white-text">.</td>
+               <td class="small-text-womargin white-text">.</td>
+               <td class="small-text-womargin white-text">Qty</td>
+               <td class="small-text-womargin white-text" style="text-align: center;">.</td>
+               <td class="small-text-womargin white-text" style="text-align: center;">.</td>
+               <td class="small-text-womargin white-text" style="text-align: right;">.</td>
+               <td class="small-text-womargin white-text" style="text-align: right;">.</td>
+               <td class="small-text-womargin white-text" style="text-align: right;">.</td>
+            </tr>
+            <tr></tr>
+            <tr></tr>
+            @product_row 
+         </table>
+      </div>
+      <div>
+        <hr>
+         <table width="100%" style="margin-top:-10px;">
+            <col width="30%">
+            <col width="30%">
+            <col width="40%">
+            <tr>
+               <td>
+                  <div style="margin:0;margin-top:5px;white-space: pre-wrap;
+    word-break: break-word;line-height:1em;font-size: 12px;">@in_word</div>
+                  <div style="line-height:1em;text-align:left;white-space:pre-line;width:350px;font-size:11px">
+NOTE:
+- If you do not agree with the above balance,please inform us within 7 days.
+- No claims or goods return will be entertainedafter 7 days from date of delivery
+- Payment should be strictly made payable to NILAI MAYANG SDN BHD
+- Our bank details:
+  NILAI MAYANG SDN BHD
+  OCBC AL-AMIN BANK BERHAD
+  Account No : 186-102368-2
+- Payment Notification:
+  by fax/by email to accounting@nilaimayang.com.my
+                  </div>
+               </td>
+               <td style="text-align: left;">
+                <image style="height:70px;width:70px;margin-left:-100px;margin-top:100%" src="data:image/png;base64,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" alt="tng"/>
+                <label style="margin-left:-115px;"><strong>TNG eWALLET</strong></label>
+               </td>
+               <td>
+                  <table style="width: 100%;" cellspacing="0">
+                    <col width="60%">
+                    <col width="40%">
+                    <tr class="spaceUnder">
+                        <td class="btm-td">Gross :</td>
+                        <td class="btm-td">@doc_amount</td>
+                    </tr>
+                    <tr class="spaceUnder">
+                        <td class="btm-td">- Discount :</td>
+                        <td class="btm-td">0.00</td>
+                    </tr>
+                    <tr class="spaceUnder">
+                        <td style="border:1px solid black;border-bottom:0px;" class="btm-td">Total Excl.Tax :</td>
+                        <td style="border:1px solid black;border-bottom:0px;" class="btm-td">@doc_excl_tax</td>
+                    </tr>
+                    <tr class="spaceUnder">
+                        <td style="border:1px solid black;border-top:0px;" class="btm-td">Tax Amt :</td>
+                        <td style="border:1px solid black;border-top:0px;" class="btm-td">@doc_tax</td>
+                    </tr>
+                    <tr class="spaceUnder">
+                        <td style="border:1px solid black;border-top:0px;font-weight:bold" class="btm-td">Total Payable Incl. Tax:</td>
+                        <td style="border:1px solid black;border-top:0px;font-weight:bold" class="btm-td">@doc_incl_tax</td>
+                    </tr>
+                  </table>
+                  <h4 style="text-align:center;">NILAI MAYANG SDN BHD(360770-D)</h4>
+                  <div style="font-style:italic;line-height:1em;text-align:center;white-space:pre-line;padding-bottom:5px;border-bottom:1px solid black;">
+                    This is a computer generated Tax Invoice.<br>No signature is required
+                  </div>
+               </td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

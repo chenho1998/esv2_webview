@@ -1,0 +1,17 @@
+.manualSyncBg{
+	height: auto !important;
+}
+
+.sync-button{
+	width: 100px;
+}
+
+.sync-title{
+	display: inline-block;
+    width: 30%;
+}
+
+.sync-status{
+	display: inline-block;
+    padding-left: 20px;
+}

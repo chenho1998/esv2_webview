@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+      <style>
+        .custborder {
+            margin:0px auto;
+            padding:5px;
+            padding-top:2px;
+            padding-left:5px;
+            background-color:white;
+            border:1px solid black;
+        }
+      table { table-layout: fixed;page-break-inside:auto; width:100% } tr { page-break-inside:avoid; page-break-after:auto;text-align:left } thead { display:table-header-group } tfoot { display:table-footer-group } body {  font-size: 14px;  line-height: 0.2em;}table td, table td * { vertical-align: top;white-space:pre; word-wrap: break-word; overflow-wrap: break-word; } tr.spaceUnder>td {  padding-bottom: 0.8em;} tr.spaceMn>td {  padding-bottom: 0.2em;} .small-text{ font-size: 12px; font-weight: normal;margin-left: 5px;}.small-text-womargin{ font-size: 14px; font-weight: normal; line-height: 0.1em; margin-left:-5px;}.main-div{  padding: 10px;}.title{ font-size: 15px;  line-height: 0.1em;  font-weight: bold;  color: black;margin-left:-5px;}.footer {  position: fixed;  left: 0;  bottom: 0;  width: 98%;  border-top: 1px solid black;  border-bottom: 1px solid black;  height: 100px;  margin-bottom: 10px;  align-self: center;  margin-left: 1%;} .right-text{ display:block;text-align:right } .left-text{ display:block;text-align:left;margin-left:0; } .center-text { display:block;text-align:center } p-wo-margin{line-height: 0.1em;margin:0px;} .title-left{font-size: 15px; font-weight: bold; color: black;text-align:left;} .noSpace {  padding:0px;margin:0px;height:20px; } .extraTop { margin-top:10px; } .tiny-text { font-size: 12px; font-weight: normal; line-height: 0.1em; margin-left:-5px; } .doctype{line-height:0.1em;margin:0px;margin-top:10px;text-align:center;display:inline;} .btm-td {text-align:right;line-height:1em;} .header-table{border:1px solid black;margin-top:10px;border-left:0;border-right:0;padding:0} .tiny { font-size:10px; line-height:1em;padding:0;margin:0 }</style>
+   </head>
+   <body>
+      <table style="width:100%;height:80px">
+         <col width="20%">
+         <col width="80%">
+         <tr>
+            <td style="align-items:left;height:80px;"> <img src="data:image/png;base64,@base64" width="120px" /> 
+            </td>
+            <td style="align-items:left;height:80px;">
+               <h2 style="line-height:18px;line-height:0.1em">@client<label class="small-text" style="margin-top:5px;">@sub_client</label></h2><p class="p-wo-margin">@address @zipcode @city @state</p><p class="p-wo-margin">Tel: @phone Fax: @fax</p><p class="p-wo-margin">E-mail: agroxholdings@gmail.com Website: @website</p>
+            </td>
+         </tr>
+      </table>
+      <hr>
+      <div class="main-div">
+        <div style="text-align:center;">
+            <h2 class="doctype">@doctype_caps</h2>
+        </div>
+         <table style="width:100%;height:80px;margin-top:10px">
+            <col width="40%">
+            <col width="5%">
+            <col width="55%">
+            <tr>
+                <td style="align-items:left;height:80px;">
+                    <div class="custborder">
+                    <div class="title" style="margin-left:1px;line-height: 1em;white-space: pre-line;">@cust_name</div><div style="line-height: 1em;white-space: pre-line;">@address1<br>@address2<br>@address3<br>@address4</p><p>Tel: @phone1 Fax: @fax1</div>
+                    </div>
+                    <div class="title-left extraTop" style="line-height:1em;font-size:12px">@branchname</div>
+                </td>
+                <td></td>
+                <td style="align-items:left;">
+                    <table style="width:100%;">
+                        <col width="50%">
+                        <col width="50%">
+                        <tr><td></td><td></td></tr>
+                        <tr><td></td><td></td></tr>
+                        <tr><td></td><td></td></tr>
+                        <tr><td></td><td></td></tr>
+                        <tr><td></td><td></td></tr>
+                        <tr class="spaceMn">
+                            <td>
+                                <div style="font-weight:bold;text-align:right;">No.</div>
+                            </td>
+                            <td>
+                                <div style="font-weight:bold">: @doc_code</div>
+                            </td>
+                        </tr>
+                        <tr class="spaceMn">
+                            <td>
+                                <div>Date</div>
+                            </td>
+                            <td>
+                                <div>: @doc_date</div>
+                            </td>
+                        </tr>
+                        <tr class="spaceMn">
+                            <td>
+                                <div>Terms</div>
+                            </td>
+                            <td>
+                                <div>: @terms</div>
+                            </td>
+                        </tr>
+                        <tr class="spaceMn">
+                            <td>
+                                <div>Salesperson</div>
+                            </td>
+                            <td>
+                                <div>: @staff_code</div>
+                            </td>
+                        </tr>
+                        <tr class="spaceMn">
+                            <td>
+                                <div>Our Ref.</div>
+                            </td>
+                            <td>
+                                <div>: @docnoex</div>
+                            </td>
+                        </tr>
+                        <tr class="spaceMn">
+                            <td>
+                                <div>Your Ref.</div>
+                            </td>
+                            <td>
+                                <div>: @docref1_cc
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+         <table width="100%" class="header-table" style="padding:0;margin:0">
+            <col width="2%">
+            <col width="48%">
+            <col width="10%">
+            <col width="5%">
+            <col width="10%">
+            <col width="10%">
+            <col width="13%">
+            <col width="2%">
+            <tr>
+                <td>
+                    <p class="title left-text tiny">No</p>
+                </td>
+                <td> 
+                  <p class="title center-text tiny">Description</p>
+               </td>
+               <td> 
+                  <p class="title center-text tiny">Qty</p>
+               </td>
+               <td>  
+                  <p class="title left-text tiny">Price<br>/Unit</p>
+               </td>
+               <td>
+                  <p class="title left-text tiny">Total Exd.<br>Tax(RM)</p>
+               </td>
+               <td> 
+                  <p class="title left-text tiny">Tax Amt</p>
+               </td>
+               <td> 
+                  <p class="title left-text tiny">Total Ind.<br>Tax(RM)</p>
+               </td>
+               <td> 
+                  <p class="title right-text tiny">Tax</p>
+               </td>
+            </tr>
+         </table>
+         <table width="100%" style="margin-top:10px;">
+            <col width="2%">
+            <col width="48%">
+            <col width="10%">
+            <col width="5%">
+            <col width="10%">
+            <col width="10%">
+            <col width="13%">
+            <col width="2%">
+            <tr></tr>
+            <tr></tr>
+            @product_row 
+         </table>
+      </div>
+      <div>
+        <hr>
+         <table width="100%" style="margin-top:-10px;">
+            <col width="60%">
+            <col width="40%">
+            <tr>
+               <td>
+                  <p style="margin:0;margin-top:5px;line-height:1em">@in_word</p>
+               </td>
+               <td>
+                  <table style="width: 100%;" cellspacing="0">
+                    <col width="60%">
+                    <col width="40%">
+                    <tr class="spaceUnder">
+                        <td class="btm-td">Gross :</td>
+                        <td class="btm-td">@doc_amount</td>
+                    </tr>
+                    <tr class="spaceUnder">
+                        <td style="border:1px solid black;border-bottom:0px;" class="btm-td">Total Excl.Tax :</td>
+                        <td style="border:1px solid black;border-bottom:0px;" class="btm-td">@doc_excl_tax</td>
+                    </tr>
+                    <tr class="spaceUnder">
+                        <td style="border:1px solid black;border-top:0px;" class="btm-td">Tax Amt :</td>
+                        <td style="border:1px solid black;border-top:0px;" class="btm-td">@doc_tax</td>
+                    </tr>
+                    <tr class="spaceUnder">
+                        <td style="border:1px solid black;border-top:0px;font-weight:bold" class="btm-td">Total Payable Incl. Tax:</td>
+                        <td style="border:1px solid black;border-top:0px;font-weight:bold" class="btm-td">@doc_incl_tax</td>
+                    </tr>
+                  </table>
+                  <h4 style="text-align:center;">AGROX HOLDINGS SDN. BHD.(1331004-V)</h4>
+                  <div style="font-style:italic;line-height:1em;text-align:center;white-space:pre-line;padding-bottom:5px;border-bottom:1px solid black;">
+                    This is a computer generated Credit Note.<br>No signature is required
+                  </div>
+               </td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

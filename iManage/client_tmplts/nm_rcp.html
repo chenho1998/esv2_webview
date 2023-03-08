@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+      <style>table { page-break-inside:auto } tr { page-break-inside:avoid; page-break-after:auto;text-align:left } thead { display:table-header-group } tfoot { display:table-footer-group } body {  font-size: 14px;  line-height: 0.2em;}table td, table td * { vertical-align: top;white-space:pre;word-wrap: break-word; overflow-wrap: break-word; } tr.spaceUnder>td {  padding-bottom: 0.8em;} tr.spaceMn>td {  padding-bottom: 0.2em;} .small-text{ font-size: 12px; font-weight: normal;margin-left: 5px;}.small-text-womargin{ font-size: 14px; font-weight: normal; line-height: 0.1em; margin-left:-5px;}.main-div{  padding: 10px;}.title{ font-size: 15px;  line-height: 0.1em;  font-weight: bold;  color: black;margin-left:-5px;}.footer {  position: fixed;  left: 0;  bottom: 0;  width: 98%;  border-top: 1px solid black;  border-bottom: 1px solid black;  height: 100px;  margin-bottom: 10px;  align-self: center;  margin-left: 1%;} .right-text{ display:block;text-align:right; } .left-text{ display:block;text-align:left;margin-left:0; } .center-text { display:block;text-align:center } p-wo-margin{line-height: 0.1em;margin:0px;} .title-left{font-size: 15px; font-weight: bold; color: black;text-align:left;} .title-right{font-size: 15px; font-weight: bold; color: black;text-align:right;} .noSpace {  padding:0px;margin:0px;height:20px; } .extraTop { margin-top:10px; } .tiny-text { font-size: 12px; font-weight: normal; line-height: 0.1em; margin-left:-5px; } .btm-td {text-align:right;line-height:1em;} .main-td { border:1px solid black;border-left:0; padding: 10px; padding-left: 30px; } .sub-td { border:1px solid black;border-left:0; padding: 10px; } .no-margin { margin: 0px;padding: 0px; } </style>
+   </head>
+   <body>
+      <table style="width:100%;height:80px">
+         <col width="20%">
+         <col width="80%">
+         <tr>
+            <td style="align-items:left;height:80px;"> <img src="data:image/png;base64,@base64" width="120px" /> 
+            </td>
+            <td style="align-items:left;height:80px;">
+               <h2 style="line-height:18px;line-height:0.1em">@client<label class="small-text" style="margin-top:5px;">@sub_client</label></h2><p class="p-wo-margin">@address @city @state @zipcode</p><p class="p-wo-margin">Tel: @phone Fax: @fax</p><p class="p-wo-margin">E-mail: accounting@nilaimayang.com.my Website: @website</p><p class="p-wo-margin">(SST No:B16-1809-22000259)</p>
+            </td>
+         </tr>
+      </table>
+      <div class="main-div">
+        <hr>
+        <table style="width:100%;height:80px">
+            <col width="15%">
+            <col width="30%">
+            <col width="55%">
+            <tr>
+                <td class="title-right" style="padding-top: 5px;">Received From:</td>
+                <td style="line-height: 1em;vertical-align: text-top;">@cust_code<br>@cust_name<br>@cust_address</td>
+                <td>
+                    <table style="width:100%;">
+                        <col width="50%">
+                        <col width="50%">
+                        <tr>
+                           <td class="title-right">Official Receipt No.:</td>
+                           <td><strong>@doc_code</strong></td>
+                        </tr>
+                        <tr><td></td><td></td></tr>
+                        <tr><td></td><td></td></tr>
+                        <tr>
+                           <td class="right-text">Date:</td>
+                           <td>@doc_date</td>
+                        </tr>
+                        <tr><td></td><td></td></tr>
+                        <tr><td></td><td></td></tr>
+                        <tr>
+                           <td class="right-text">Cheque No.:</td>
+                           <td>@cheque_no</td>
+                        </tr>
+                        <tr><td></td><td></td></tr>
+                        <tr><td></td><td></td></tr>
+                        <tr>
+                           <td class="right-text">Received In:</td>
+                           <td>@paymentmethod</td>
+                        </tr>
+                        <tr><td></td><td></td></tr>
+                        <tr><td></td><td></td></tr>
+                        <tr>
+                           <td class="right-text">Salesperson:</td>
+                           <td>@staff_code</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <table style="width:100%;margin-top: 10px;">
+            <col width="25%">
+            <col width="57%">
+            <col width="18%">
+            <tr>
+               <td class="main-td" >A/C</td>
+               <td class="main-td" >Description</td>
+               <td class="main-td" style="border-right:0" >Amount(RM)</td>
+            </tr>
+        </table>
+        <table style="width:100%;margin-top: 5px;min-height: 30px;">
+            <col width="80%">
+            <col width="20%">
+            <tr>
+               <td>
+                  @receipt_desc
+               </td>
+               <td>
+                  @doc_amount
+               </td>
+            </tr>
+         </table>
+         <table ko hidden style="width:100%;margin-top: 10px;">
+            <col width="50%">
+            <col width="50%">
+            <tr>
+               <td>
+                  <table style="width:100%;">
+                     <col width="25%">
+                     <col width="25%">
+                     <col width="25%">
+                     <col width="25%">
+                     <tr>
+                        <td class="sub-td">
+                           <p class="no-margin">Doc No.</p>
+                        </td>
+                        <td class="sub-td">
+                           <p class="no-margin">Doc Date</p>
+                        </td>
+                        <td class="sub-td">
+                           <p class="right-text no-margin">Org. Amt</p>
+                        </td>
+                        <td class="sub-td" style="border-right:0">
+                           <p class="right-text no-margin">Paid Amt</p>
+                        </td>
+                     </tr>
+                     @product_row 
+                  </table>
+               </td>
+               <td></td>
+            </tr>
+         </table>
+         <hr/>
+         <table style="width:100%;margin-top: 10px;table-layout:fixed;word-break:break-all;">
+            <col width="60%">
+            <col width="40%">
+            <tr>
+               <td><div style="width:400px; white-space: pre-line;line-height:1em;">@in_word</div></td>
+               <td>
+                  <table style="width:100%;">
+                     <col width="70%">
+                     <col width="30%">
+                     <tr>
+                        <td style="text-align: right;">Total:</td>
+                        <td><strong>@doc_amount</strong></td>
+                     </tr>
+                     <tr><td></td><td></td></tr>
+                     <tr><td></td><td></td></tr>
+                  </table>
+               </td>
+            </tr>
+         </table>
+         <table style="width:100%;margin-top: 10px;">
+            <col width="70%">
+            <col width="30%">
+            <tr>
+               <td style="line-height: 1em;">N.B<br>Validity of This Receipt<br>Subject to Clearing of Cheque</td>
+               <td style="line-height: 1em;text-align: center;"><i>This is computer generated receipt</i><br><i>No signature is required</i><hr>For NILAI MAYANG SDN BHD</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

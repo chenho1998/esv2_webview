@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html,body{
+            height:97%;
+            width:210mm;
+            /* to centre page on screen*/
+            margin-left: auto;
+            margin-right: auto;
+            padding: 10px;
+        }
+        * {
+            font-size: 11px;
+            line-height: 1em;
+        }
+        p {
+            font-size: 11px;
+            line-height: 1em;
+            padding: 0;
+            margin: 0;
+            margin-top: 2px;
+        }
+        h4 {
+            margin: 0;
+            padding: 0;
+            line-height: 1em;
+        }
+        .cust-box {
+            border: 1px solid rgb(204,172,114);
+            border-radius: 10px;
+            vertical-align: top;
+            padding: 10px;
+            height:150px;
+        }
+        .cust-code {
+            font-weight: bold;
+            margin-top: 5px;;
+        }
+        .cust-name {
+            font-weight: bold;
+        }
+        .info-box {
+            height: 100px;
+            vertical-align: top;
+            padding: 10px;
+        }
+        #containerInfo h2,
+        #containerInfo p {
+            display: inline;
+            vertical-align: bottom;
+        }
+        .doc-id{
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .info-table{
+            width: 100%;margin-top: 20px;margin-left: -2px;
+        }
+        .info-dash{
+            border-bottom: 1px solid rgb(204,172,114);
+            width: 100%;
+            margin-top: 5px;
+        }
+        .info-dash-text {
+            width: 100px;margin-left: auto;
+        }
+        tr.spaceUnder>td {
+            padding-bottom: 20px;
+        }
+        .full-table{
+            width: 100%;
+        }
+        th{
+            color:white;
+            font-weight: bold;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+        thead{
+            background: rgb(204,172,114);
+        }
+        .footer{
+            position:relative;
+            top:-20px;
+        }
+        @media print {
+            thead{
+                background: rgb(204,172,114) !important;
+                -webkit-print-color-adjust: exact; 
+            }
+            .footer{
+                position:relative;
+                top:-20px;
+            }
+        }
+        table {
+            border-collapse: collapse;
+        }
+        .border {
+            border-top:1px solid rgb(204,172,114);
+        }
+        .parent {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+        .in-word {
+            font-style: italic;margin-top: 5px;margin-bottom: 10px;font-weight: bold;font-size: 17px;
+        }
+    </style>
+</head>
+    <body>
+        <div class="parent">
+            <div>
+                <img 
+                    src="data:image/png;base64,@header" 
+                    alt="header" 
+                    style="width:100%;margin-bottom:20px;"> 
+                <table class="full-table">
+                    <col width="45%">
+                    <col width="10%">
+                    <col width="45%">
+                    <tr>
+                        <td>
+                            <div class="cust-box">
+                                <p><strong>SOLD TO:</strong></p>
+                                <p class="cust-code">@cust_code</p>
+                                <p class="cust-name">@customer_name</p>
+                                @address
+                            </div>
+                        </td>
+                        <td></td>
+                        <td class="info-box">
+                            <div id="containerInfo">
+                                <h2>INVOICE NO:</h2> <p class="doc-id">@document_id</p>
+                            </div>
+                            <table class="info-table">
+                                <col width="30%">
+                                <col width="70%">
+                                <tr class="spaceUnder">
+                                    <td><strong>Date</strong></td>
+                                    <td><div class="info-dash"><p class="info-dash-text">@document_date</p></div></td>
+                                </tr>
+                                <tr class="spaceUnder">
+                                    <td><strong>Sales Rep</strong></td>
+                                    <td><div class="info-dash"><p class="info-dash-text">@salesperson</p></div></td>
+                                </tr>
+                                <tr class="spaceUnder">
+                                    <td><strong>Terms</strong></td>
+                                    <td><div class="info-dash"><p class="info-dash-text">@termcode</p></div></td>
+                                </tr>
+                                <tr class="spaceUnder">
+                                    <td><strong>Contact No</strong></td>
+                                    <td><div class="info-dash"></div></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <table class="full-table" style="margin-top: 10px;">
+                    <col width="5%">
+                    <col width="50%">
+                    <col width="15%">
+                    <col width="15%">
+                    <col width="15%">
+                    <thead>
+                        <th>No</th>
+                        <th>Product Description</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Amount (RM)</th>
+                    </thead>
+                    <tbody>
+                        @product_line
+                    </tbody>
+                </table>
+            </div>
+            <div class="child">
+                <table class="full-table">
+                    <col width="70%">
+                    <col width="30%">
+                    <tr>
+                        <td>
+                            <p class="in-word">@in_words_total</p>
+                        </td>
+                        <td>
+                            <p class="in-word" style="text-align: right;">TOTAL: @grand_total</p>
+                        </td>
+                    </tr>
+                </table>
+                <img 
+                    style="width:210mm;margin-left: auto;margin-right: auto;"
+                    src="data:image/png;base64,@footer" 
+                    alt="footer" > 
+            </div>
+        </div>
+    </body>
+</html>

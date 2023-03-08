@@ -1,0 +1,648 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: julfikar
+ * Date: 2019-01-15
+ * Time: 14:05
+ */
+
+////http://easysales.asia/julfitest/webview/iManage/invoice_details.php?client=toysworldtest&custCode=301-M004
+
+require_once('./model/DB_class.php');
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+
+define("INVOICE","Invoice");
+define("CREDIT","Credit");
+define("RECEIPT","Receipt");
+define("DEBIT","Debit");
+define("TYPE","type");
+define("KEY","key");
+
+date_default_timezone_set('Asia/Kuala_Lumpur');
+
+$settings                       = parse_ini_file('../config.ini',true);
+
+$custCode                       = '';
+$client                         = '';
+$connection                     = NULL;
+
+if(isset($_GET['custCode']) && isset($_GET['client'])){
+
+    $custCode                   = $_GET['custCode'];
+    $client                     = $_GET['client'];
+    $postDated                  = $_GET['postDated'];
+    $isPayment                  = isset($_GET['payment']) ? $_GET['payment'] : 0;
+    $isSelfOrder                = isset($_GET['selforder']) ? $_GET['selforder'] : 0;
+
+    $users_SQLAccounting        = $settings['SQL']['sql_client'];
+    $users_abswin               = $settings['ABSWIN']['abswin_client'];
+    $users_SmartSQL             = $settings['SMARTSQL']['smartsql_client'];
+
+    $db                         = new DB();
+
+    $settings                   = $settings[$client];
+
+    $db_user                    = $settings['user'];
+    $db_pass                    = $settings['password'];
+    $db_name                    = $settings['db'];
+    $db_host                    = isset($settings['host']) ? $settings['host'] : 'easysales.asia';
+
+    $connection                 = $db->connect_with_given_connection($db_user,$db_pass,$db_name,$db_host);
+    if(!$connection){
+        echo "0";//unauthorized access
+    }else{
+        // do all data manipulation
+
+        $is_SQLAccounting       = in_array($client,$users_SQLAccounting);
+        $is_Abswin              = in_array($client,$users_abswin);
+        $is_SmartSQL            = in_array($client,$users_SmartSQL);
+
+        $positive               = 0;
+        $negative               = 0;
+
+        $sql_positive           = 0;
+        $sql_negative           = 0;
+
+        $abswin_calc            = 0;
+
+        $total_outstanding      = 0;
+
+        $store                  = array();
+        $final                  = array();
+
+        $inCustQuery            = array();
+
+        if($is_SmartSQL && $isPayment && strpos($custCode, '/') !== false){
+            $firstPiece = explode('/',$custCode)[0];
+            $secondPiece = explode('/',$custCode)[1];
+            for ($i=0; $i < 3; $i++) { 
+                $newCode = '"' . (floatval($firstPiece) + $i) . '/' . $secondPiece . '"';
+                $inCustQuery[] = $newCode;
+            }
+            $inCustQuery = "(" . implode(',',$inCustQuery) . ")";
+        }
+
+        $sql                    = "";
+
+        $inv_date_condition     = "DATE(invoice_date) <= CURRENT_DATE()";
+        $dn_date_condition      = "DATE(dn_date) <= CURRENT_DATE()";
+        $cn_date_condition      = "DATE(cn_date) <= CURRENT_DATE()";
+        $rcp_date_condition     = "DATE(receipt_date) <= CURRENT_DATE()";
+
+        /* if ($isPayment == false){
+            $inv_date_condition     = "";
+            $dn_date_condition      = "";
+            $cn_date_condition      = "";
+            $rcp_date_condition     = "";
+        } */
+
+        if($client === 'weiwo'){
+            $inv_date_condition     = "DATE(invoice_date) >= '2020-07-20' AND DATE(invoice_date) <= CURRENT_DATE()";
+            $dn_date_condition      = "DATE(dn_date) >= '2020-07-20' AND DATE(dn_date) <= CURRENT_DATE()";
+            $cn_date_condition      = "DATE(cn_date) >= '2020-07-20' AND DATE(cn_date) <= CURRENT_DATE()";
+            $rcp_date_condition     = "DATE(receipt_date) >= '2020-07-20' AND DATE(receipt_date) <= CURRENT_DATE()";
+        }
+
+        if($postDated == '1'){
+            // yes
+            $inv_date_condition     = "DATE(invoice_date) > CURRENT_DATE()";
+            $dn_date_condition      = "DATE(dn_date) > CURRENT_DATE()";
+            $cn_date_condition      = "DATE(cn_date) > CURRENT_DATE()";
+            $rcp_date_condition     = "DATE(receipt_date) > CURRENT_DATE()";
+        }
+
+        $paymentKoData              = array();
+        if($isPayment){
+            $db->query("SELECT * FROM cms_payment WHERE cancel_status = 0 AND payment_status not in (2,3) AND knockoff_inv IS NOT NULL");
+            if($db->get_num_rows() != 0){
+                while($result = $db->fetch_array()){
+                    $knockoffInvoices = $result['knockoff_inv'];
+                    if($knockoffInvoices){
+                        $knockoffInvoices = json_decode($knockoffInvoices,true);
+                        for ($i=0,$size = count($knockoffInvoices); $i < $size; $i++) { 
+                            $_inv = $knockoffInvoices[$i];
+                            $ko_amount = $_inv['knockoff_amount'];
+                            if(isset($paymentKoData[$_inv['doc_code']])){
+                                $prev_amount = $paymentKoData[$_inv['doc_code']];
+                                $paymentKoData[$_inv['doc_code']] = $prev_amount + $ko_amount;
+                            }else{
+                                $paymentKoData[$_inv['doc_code']] = $ko_amount;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        $postDatedData          = array();
+
+        $custCode               = mysql_real_escape_string($custCode);
+
+        $cust_query             = isset($inCustQuery) && $isPayment && $is_SmartSQL ? 
+                                    " cust_code IN {$inCustQuery} " : 
+                                        " cust_code = '{$custCode}' ";
+
+        if($isPayment && $is_SmartSQL){
+            $inv_date_condition = " outstanding_amount <> 0 ";
+            $dn_date_condition = " outstanding_amount = 0 ";
+            $cn_date_condition = " cn_knockoff_amount = 0 ";
+            $rcp_date_condition = " receipt_knockoff_amount = 0 ";
+        }
+
+        $result                 = $db->query("SHOW COLUMNS FROM `cms_invoice` LIKE 'invoice_due_date'");
+		$exists                 = (mysql_num_rows($result))?TRUE:FALSE;
+		if($exists){
+            $overdueCond = "IF(DATE(invoice_due_date) <= CURRENT_DATE() AND outstanding_amount > 0,'T','F') AS 'overdue'";
+            if($is_SQLAccounting){
+                $overdueCond = "IF(DATE(invoice_due_date) <= CURRENT_DATE(),'T','F') AS 'overdue'";
+            }
+			$sql                = "SELECT inv.*, {$overdueCond} FROM cms_invoice AS inv WHERE {$cust_query} AND cancelled = 'F' AND {$inv_date_condition} ORDER BY invoice_date DESC";
+		}else{
+			$sql                = "SELECT * FROM cms_invoice WHERE {$cust_query} AND cancelled = 'F' AND {$inv_date_condition} ORDER BY invoice_date DESC";
+        }
+
+        $db->query($sql);
+
+        if($db->get_num_rows() != 0){
+            while($result = $db->fetch_array()){
+                $obj = array(
+                    TYPE                => INVOICE,
+                    "identifier"        => $result['invoice_id'],
+                    "code"              => $result['invoice_code'],
+                    "date"              => dateOnly($result['invoice_date']),
+                    "amount"            => $result['invoice_amount'],
+                    "balance"           => $result['outstanding_amount'],
+                    "cancelled"         => $result['cancelled'],
+                    "overdue"           => $result['overdue'],
+                    "overdueDate"       => dateOnly($result['invoice_due_date']),
+                    "checked"           => isset($result['approved']) ? $result['approved'] : 0,
+                    KEY                 => monthAndYear($result['invoice_date'])
+                );
+
+                if($isPayment){
+                    if(isset($paymentKoData[$result['invoice_code']])){
+                        $ko = $paymentKoData[$result['invoice_code']];
+                        $obj['is_knockedoff'] = $ko > 0;
+                        $obj['knockoff_amount'] = $ko;
+                        $obj['from_api'] = 1;
+                    }
+                }
+
+                array_push($store,$obj);
+
+                $sql_positive += floatval($result['invoice_amount']);
+                $sql_negative += floatval($result['outstanding_amount']);
+
+                $abswin_calc  += floatval($result['outstanding_amount']);
+
+                $positive += floatval($result['outstanding_amount']);
+            }
+        }
+
+        $sql                    = "SELECT * FROM cms_debitnote WHERE {$cust_query}
+                                    AND cancelled = 'F' AND {$dn_date_condition} ORDER BY dn_date DESC";
+
+        $db->query($sql);
+        if($db->get_num_rows() != 0){
+            while ($result = $db->fetch_array()){
+                array_push($store,array(
+                    TYPE                => $isPayment && $is_SmartSQL ? RECEIPT : DEBIT,
+                    "identifier"        => $result['dn_id'],
+                    "code"              => $result['dn_code'],
+                    "date"              => dateOnly($result['dn_date']),
+                    "amount"            => $result['dn_amount'],
+                    "balance"           => $result['outstanding_amount'],
+                    "cancelled"         => $result['cancelled'],
+                    "checked"           => isset($result['approved']) ? $result['approved'] : 0,
+                    KEY                 => monthAndYear($result['dn_date'])
+                ));
+
+                $positive += floatval($result['outstanding_amount']);
+            }
+        }
+
+        $sql                    = "SELECT * FROM cms_creditnote WHERE {$cust_query} AND {$cn_date_condition} AND cancelled = 'F' ORDER BY cn_date DESC";
+
+        $db->query($sql);
+        if($db->get_num_rows() != 0){
+            while ($result = $db->fetch_array()){
+                array_push($store,array(
+                    TYPE                 => CREDIT,
+                    "identifier"         => $result['cn_id'],
+                    "code"               => $result['cn_code'],
+                    "date"               => dateOnly($result['cn_date']),
+                    "balance"            => $result['cn_knockoff_amount'],
+                    "amount"             => $result['cn_amount'],
+                    "cancelled"          => $result['cancelled'],
+                    "checked"            => isset($result['approved']) ? $result['approved'] : 0,
+                    KEY                  => monthAndYear($result['cn_date'])
+                ));
+                $negative += floatval($result['cn_amount']) - floatval($result['cn_knockoff_amount']);
+
+                $sql_negative += floatval($result['cn_amount']) - floatval($result['cn_knockoff_amount']);
+            }
+        }
+
+        $sql                    = "SELECT * FROM cms_receipt WHERE {$cust_query} AND cancelled = 'F' AND {$rcp_date_condition} ORDER BY receipt_date DESC";
+        
+        $db->query($sql);
+        if($db->get_num_rows() != 0){
+            while ($result = $db->fetch_array()){
+                array_push($store,array(
+                    TYPE                 => RECEIPT,
+                    "identifier"         => $result['receipt_id'],
+                    "code"               => $result['receipt_code'],
+                    "date"               => dateOnly($result['receipt_date']),
+                    "balance"            => $result['receipt_knockoff_amount'],
+                    "amount"             => $result['receipt_amount'],
+                    "cancelled"          => $result['cancelled'],
+                    "description"        => $result['receipt_desc'],
+                    "cheque_no"          => $result['cheque_no'],
+                    "checked"            => isset($result['approved']) ? $result['approved'] : 0,
+                    KEY                  => monthAndYear($result['receipt_date'])
+                ));
+                if($postDated == 1){
+                    array_push($postDatedData,array(
+                        TYPE                 => RECEIPT,
+                        "identifier"         => $result['receipt_id'],
+                        "code"               => $result['receipt_code'],
+                        "date"               => dateOnly($result['receipt_date']),
+                        "balance"            => $result['receipt_knockoff_amount'],
+                        "amount"             => $result['receipt_amount'],
+                        "cancelled"          => $result['cancelled'],
+                        "description"        => $result['receipt_desc'],
+                        "cheque_no"          => $result['cheque_no'],
+                        KEY                  => monthAndYear($result['receipt_date'])
+                    ));
+                }
+                $negative += floatval($result['receipt_amount']) - floatval($result['receipt_knockoff_amount']);
+                $sql_negative += floatval($result['receipt_amount']) - floatval($result['receipt_knockoff_amount']);
+            }
+        }
+
+        if(count($store) === 0){
+            echo "0";
+            return false;
+        }
+
+        $ageing                          = array();
+
+        $store                           = group_by_key($store);
+
+        $amount                          = 0;
+
+        $carry_amount                    = 0;
+
+        ksort($store);
+
+        // here we go
+        if($is_SQLAccounting){
+            
+            $total_outstanding               = $positive;//($sql_positive-$sql_negative);
+
+            foreach ($store as $date=>$data){
+                $temp                        = array();
+
+                //one month calculation
+
+                $invoice_amt                 = 0;
+                $invoice_outstanding         = 0;
+
+                $monthlyAmount               = 0;
+                $balance                     = 0;
+
+                $credit                      = 0;
+
+                foreach ($data as $key=>$value){
+                    // each note
+                    $afterKnockOff           = 0;
+
+                    if($value[TYPE] === INVOICE){
+                        $monthlyAmount          += floatval($value['amount']);
+                        $amount                 += floatval($value['amount']);
+                        $invoice_amt            += floatval($value['amount']);
+                        $outstanding            = (floatval($value['balance']) + floatval($value['amount']));
+                        $invoice_outstanding    += $outstanding;
+
+                        if($value['balance'] > 0){
+                            $ageing[]                = $value;
+                        }
+                    }
+                    if($value[TYPE] === CREDIT){
+                        $credit                 += floatval($value['amount']);
+                        // $monthlyAmount          += floatval($value['amount']);
+                        // $amount                 += floatval($value['amount']);
+                        // $invoice_amt            += floatval($value['amount']);
+                        $outstanding            = (floatval($value['amount']) - floatval($value['balance']));
+
+                        $value['afterKnockOff']     = $outstanding;
+
+                        $invoice_outstanding    -= $outstanding;
+
+                        if($outstanding > 0){
+                            $ageing[]           = $value;
+                        }
+                    }
+
+                    if($value[TYPE] === RECEIPT){
+                        // $monthlyAmount          += floatval($value['amount']);
+                        // $amount                 += floatval($value['amount']);
+                        // $invoice_amt            += floatval($value['amount']);
+                        $outstanding            = (floatval($value['amount']) - floatval($value['balance']));
+
+                        $value['afterKnockOff']     = $outstanding;
+
+                        $invoice_outstanding    -= $outstanding;
+
+                        if($outstanding > 0){
+                            $ageing[]           = $value;
+                        }
+                    }
+
+                    array_push($temp,$value);
+                }
+                $balance                        = $invoice_amt - $invoice_outstanding;
+
+                $carry_amount                   += $balance;
+
+                $firstday                       = firstDayOfDate($date);
+                $lastday                        = lastDayOfDate($date);
+
+                $signedPdfLink                  = '';
+
+                $db->query("SHOW TABLES LIKE 'cms_statement_signature'");
+                if($db->get_num_rows() != 0){
+                    $db->query("SELECT * FROM cms_statement_signature WHERE cust_code = '{$custCode}' AND date_from = '{$firstday}' AND date_to = '{$lastday}'");
+
+                    if($db->get_num_rows() != 0){
+                        while ($result = $db->fetch_array()){
+                            $signedPdfLink = $result['statement_path'];
+                        }
+                    }
+                }
+
+                array_push($final,array(
+                        "signed"                =>$signedPdfLink,
+                        "month"                 =>name($date),
+                        "key"                   =>$date,
+                        "amount"                =>money($monthlyAmount),
+                        "outstanding"           =>$isSelfOrder ? money($credit) : money($balance * -1),
+                        "accm_amount"           =>money($amount),
+                        "accm_outstanding"      =>money($carry_amount * -1),
+                        "data"                  =>$temp
+                    )
+                );
+            }
+        } else if($is_Abswin) {
+            $total_outstanding               = $abswin_calc;
+
+            foreach ($store as $date=>$data){
+                $temp                        = array();
+
+                //one month calculation
+
+                $invoice_amt                 = 0;
+                $invoice_outstanding         = 0;
+
+                $monthlyAmount               = 0;
+                $balance                     = 0;
+
+                foreach ($data as $key=>$value){
+                    // each note
+                    $afterKnockOff           = 0;
+
+                    if($value[TYPE] === INVOICE){
+                        $monthlyAmount          += floatval($value['amount']);
+                        $amount                 += floatval($value['amount']);
+                        $invoice_amt            += floatval($value['amount']);
+                        $invoice_outstanding    += floatval($value['balance']);
+
+                        if(floatval($value['balance']) > 0){
+                            $ageing[]           = $value;
+                        }
+                    }
+                    $value['afterKnockOff']      = floatval($value['balance']);
+
+                    array_push($temp,$value);
+                }
+                $balance                        = $invoice_outstanding;
+
+                $carry_amount                   += $balance;
+
+                $firstday                       = firstDayOfDate($date);
+                $lastday                        = lastDayOfDate($date);
+
+                $signedPdfLink                    = 0;
+
+                $db->query("SHOW TABLES LIKE 'cms_statement_signature'");
+                if($db->get_num_rows() != 0){
+                    $db->query("SELECT * FROM cms_statement_signature WHERE cust_code = '{$custCode}' AND date_from = '{$firstday}' AND date_to = '{$lastday}'");
+
+                    if($db->get_num_rows() != 0){
+                        while ($result = $db->fetch_array()){
+                            $signedPdfLink = $result['statement_path'];
+                        }
+                    }
+                }
+
+                array_push($final,array(
+                        "signed"                =>$signedPdfLink,
+                        "month"                 =>name($date),
+                        "key"                   =>$date,
+                        "amount"                =>money($monthlyAmount),
+                        "outstanding"           =>money($balance),
+                        "accm_amount"           =>money($amount),
+                        "accm_outstanding"      =>money($carry_amount),
+                        "data"                  =>$temp
+                    )
+                );
+            }
+        } else{
+            $total_outstanding               = ($positive-$negative);
+
+            foreach ($store as $date=>$data){
+
+                $temp                        = array();
+
+                //one month calculation
+
+                $invoice                     = 0;
+                $debit                       = 0;
+                $credit                      = 0;
+                $receipt                     = 0;
+
+                $monthlyAmount               = 0;
+                $balance                     = 0;
+
+                foreach ($data as $key=>$value){
+
+                    // each note
+
+                    $afterKnockOff           = 0;
+
+                    $shouldAdd = false;
+
+                    if($value[TYPE] === INVOICE){
+                        $monthlyAmount          += floatval($value['amount']);
+                        $amount                 += floatval($value['amount']);
+                        $invoice                += floatval($value['balance']);
+                        if(floatval($value['balance']) > 0){
+                            $shouldAdd = true;
+                        }
+                    }
+                    if ($value[TYPE] === DEBIT){
+                        $monthlyAmount          += floatval($value['amount']);
+                        $amount                 += floatval($value['amount']);
+                        $debit                  += floatval($value['balance']);
+                        if(floatval($value['balance']) > 0){
+                            $shouldAdd = true;
+                        }
+                    }
+                    if($value[TYPE] === CREDIT){
+                        $monthlyAmount          -= floatval($value['amount']);
+                        $afterKnockOff          = floatval($value['amount']) - floatval($value['balance']);
+                        $credit                 += $afterKnockOff;
+                    }
+                    if($value[TYPE] === RECEIPT){
+                        $afterKnockOff          = floatval($value['amount']) - floatval($value['balance']);
+                        $receipt                += $afterKnockOff;
+                    }
+
+                    $value['afterKnockOff']     = $afterKnockOff;
+
+                    if($shouldAdd || $afterKnockOff != 0){
+                        $ageing[] = $value;
+                    }
+
+                    array_push($temp,$value);
+
+                }
+
+                $balance                        = ($invoice+$debit) - ($credit+$receipt);
+
+                $carry_amount                   += $balance;
+
+                $firstday                       = firstDayOfDate($date);
+                $lastday                        = lastDayOfDate($date);
+
+                $signedPdfLink                    = 0;
+
+                $db->query("SHOW TABLES LIKE 'cms_statement_signature'");
+                if($db->get_num_rows() != 0){
+                    $db->query("SELECT * FROM cms_statement_signature WHERE cust_code = '{$custCode}' AND date_from = '{$firstday}' AND date_to = '{$lastday}'");
+
+                    if($db->get_num_rows() != 0){
+                        while ($result = $db->fetch_array()){
+                            $signedPdfLink = $result['statement_path'];
+                        }
+                    }
+                }
+
+                array_push($final,array(
+                        "signed"                =>$signedPdfLink,
+                        "month"                 =>name($date),
+                        "key"                   =>$date,
+                        "amount"                =>money($monthlyAmount),
+                        "outstanding"           =>money($balance),
+                        "accm_amount"           =>money($amount),
+                        "accm_outstanding"      =>money($carry_amount),
+                        "data"                  =>$temp
+                    )
+                );
+            }
+        }
+
+        $overDue = 0;
+        $accm = 0;
+        for($i = 0, $len = count($ageing); $i < $len; $i++){
+            $value = $ageing[$i];
+            if($value['overdue'] == 'T' && $value[TYPE] == INVOICE){
+                $overDue += $value['balance'];
+            }
+            if($value[TYPE] == INVOICE || $value[TYPE] == DEBIT){
+                $accm += $value['balance'];
+            }else{
+                $accm -= $value['afterKnockOff'];
+            }
+            $value['accm'] = $accm; //bring forward
+            $ageing[$i] = $value;
+        }
+
+        // $ageing = array_reverse($ageing);
+        // usort($ageing, 'date_compare');
+        usort($ageing, function($a, $b)
+        {
+            $t1 = strtotime($a['date']);
+            $t2 = strtotime($b['date']);
+            $res =  ($t1 < $t2) ? -1 : 1;
+            if($res > 0){
+              return strcmp($a['identifier'], $b['identifier']);
+            }
+        });
+
+        echo json_encode(
+            array(
+                "total_outstanding" => money($total_outstanding), 
+                "statistics" => $postDated == '1' ? $postDatedData : $final, 
+                "ageing" => $client == 'insidergroup' ? array_reverse($ageing): $ageing, 
+                "overDue" => $overDue
+            )
+        );
+    }
+}else{
+    echo "0";//unauthorized access
+}
+function date_compare($a, $b)
+{
+    $t1 = strtotime($a['date']);
+    $t2 = strtotime($b['date']);
+    return $t2 - $t1;
+}  
+function nonnull($val,$type='string'){
+    return empty($val) ? $type === 'string' ? "N/A" : 0 : $val;
+}
+function monthAndYear($date){
+    return substr(dateOnly($date),0,-3);
+}
+function dateOnly($date){
+    return empty($date) ? "" : explode(" ",$date)[0];
+}
+function group_by_key($array, $key = 'key') {
+    $return                     = array();
+    foreach($array as $val) {
+        $return[$val[$key]][]   = $val;
+    }
+    return $return;
+}
+function name($date){
+    $year                       = explode("-",$date)[0];
+    $month                      = explode("-",$date)[1];
+    $month                      = intval($month);
+    $month_names                = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    return $month_names[$month-1].", ".$year;
+}
+function firstDayOfDate($date){
+    $year                       = explode("-",$date)[0];
+    $month                      = explode("-",$date)[1];
+    $month                      = intval($month);
+    $month_names                = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+    return date('Y-m-d',strtotime("first day of ".$month_names[$month-1]." {$year}"));
+}
+function lastDayOfDate($date){
+    $year                       = explode("-",$date)[0];
+    $month                      = explode("-",$date)[1];
+    $month                      = intval($month);
+    $month_names                = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+    return date('Y-m-d',strtotime("last day of ".$month_names[$month-1]." {$year}"));
+}
+function money($amount){
+    return $amount;
+    $amount = floatval($amount);
+    return number_format($amount, 2, '.', ',');
+}
+?>
+

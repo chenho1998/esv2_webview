@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html,body{
+            height:95%;
+            width:210mm;
+            /* to centre page on screen*/
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .bodyPadding {padding: 5px; }
+        .topMargin {margin-top: 0px;}
+        * {
+            font-size: 11px;
+            line-height: 1em;
+        }
+        p {
+            font-size: 11px;
+            line-height: 1em;
+            padding: 0;
+            margin: 0;
+            margin-top: 2px;
+        }
+        h4 {
+            margin: 0;
+            padding: 0;
+            line-height: 1em;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td {
+            font-size: 15px;
+            font-weight: bold;
+        }
+        .pad-bottom {
+            padding-bottom: 20px;
+        }
+        .pad {
+            padding: 10px;
+        }
+        .underline {
+            border-bottom: 1px solid black;
+        }
+        .right {
+            text-align: right;
+        }
+        .bottom {
+            vertical-align: bottom;
+        }
+        .center {
+            text-align: center;
+        }
+        .border {
+            border: 1px solid black;
+        }
+        .line {
+            border: 0;
+            border-bottom: 1px dashed black;
+            margin-top: 10px;
+        }
+        .satisfaction-box {
+            border:1px solid black;width: 98.5%;margin-top: 10px;padding: 10px;text-align: center;
+        }
+        .tick-box {
+            border:1px solid black;width:20px;height:20px;margin-right: 10px;
+        }
+        .row {
+            display: flex; justify-content: flex-start;align-items: center;
+        }
+        .comment-box {
+            height: 200px; width: 98.5%;border: 1px solid black;border-top: 0px;padding: 10px;
+        }
+        .light-text {
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+    <div class="bodyPadding topMargin">
+        <img src="data:image/png;base64,@header" alt="header" style="width:100%;margin-bottom:20px;"> 
+        <div>
+            <h3 style="float: right;font-size: 20px;">No. @document_id</h3>
+        </div>
+        <table>
+            <col width="10%">
+            <col width="2%">
+            <col width="51%">
+            <col width="5%">
+            <col width="15%">
+            <col width="2%">
+            <col width="15%">
+            <tr>
+                <td class="pad-bottom right"><p style="font-size: 20px;font-style: italic;">M/s</p></td>
+                <td class="pad-bottom"></td>
+                <td class="pad-bottom"><div class="line">@customer_name</div></td>
+                <td class="pad-bottom"></td>
+                <td class="pad-bottom"></td>
+                <td class="pad-bottom"></td>
+                <td class="pad-bottom"></td>
+            </tr>
+            <tr>
+                <td class="pad-bottom"></td>
+                <td class="pad-bottom"></td>
+                <td class="pad-bottom"><div class="line"></div></td>
+                <td class="pad-bottom"></td>
+                <td class="pad-bottom right">Your P/O No:</td>
+                <td class="pad-bottom"></td>
+                <td class="pad-bottom"><div class="line"></div></td>
+            </tr>
+            <tr>
+                <td class="pad-bottom"></td>
+                <td class="pad-bottom"></td>
+                <td class="pad-bottom"><div class="line"></div></td>
+                <td class="pad-bottom"></td>
+                <td class="pad-bottom right">Date:</td>
+                <td class="pad-bottom"></td>
+                <td class="pad-bottom"><div class="line">@document_date</div></td>
+            </tr>
+        </table>
+        <table style="margin-top: 20px;">
+            <col width="20%">
+            <col width="20%">
+            <col width="60%">
+            <tr>
+                <td class="center border pad">
+                    Code
+                </td>
+                <td class="center border pad">
+                    Quantity
+                </td>
+                <td class="center border pad">
+                    P A R T I C U L A R S
+                </td>
+            </tr>
+            @product_line
+        </table>
+        <img src="data:image/png;base64,@footer" alt="footer" style="width:100%;margin-bottom:20px;"> 
+    </div>
+</body>
+</html>

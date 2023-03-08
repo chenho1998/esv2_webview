@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html,body{
+            height:95%;
+            width:210mm;
+            /* to centre page on screen*/
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .bodyPadding {padding: 5px; }
+        .topMargin {margin-top: 0px;}
+        * {
+            font-size: 11px;
+            line-height: 1em;
+        }
+        p {
+            font-size: 11px;
+            line-height: 1em;
+            padding: 0;
+            margin: 0;
+            margin-top: 2px;
+        }
+        h4 {
+            margin: 0;
+            padding: 0;
+            line-height: 1em;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td {
+            font-size: 11px;
+        }
+        .pad-bottom {
+            padding-bottom: 10px;
+        }
+        .underline {
+            border-bottom: 1px solid black;
+        }
+        .right {
+            text-align: right;
+        }
+        .bottom {
+            vertical-align: bottom;
+        }
+        .line {
+            border: 0;
+            border-bottom: 1px solid black;
+            margin-top: 10px;
+        }
+        .satisfaction-box {
+            border:1px solid black;width: 98.5%;margin-top: 10px;padding: 10px;text-align: center;
+        }
+        .tick-box {
+            border:1px solid black;width:20px;height:20px;margin-right: 10px;
+        }
+        .row {
+            display: flex; justify-content: flex-start;align-items: center;
+        }
+        .comment-box {
+            height: 200px; width: 98.5%;border: 1px solid black;border-top: 0px;padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="bodyPadding topMargin">
+        <img src="data:image/png;base64,@header" alt="header" style="width:100%;margin-bottom:20px;"> 
+        <div>
+            <h3 style="float: right;font-size: 20px;">No. @document_id</h3>
+        </div>
+        <table>
+            <col width="20%">
+            <col width="2%">
+            <col width="38%">
+            <col width="18%">
+            <col width="2%">
+            <col width="20%">
+            <tr>
+                <td class="pad-bottom"></td>
+                <td class="pad-bottom"></td>
+                <td class="pad-bottom"></td>
+                <td class="right pad-bottom">S/No:</td>
+                <td class="pad-bottom"></td>
+                <td class="pad-bottom"><div class="line"></div></td>
+            </tr>
+            <tr>
+                <td class="right pad-bottom">Company Name:</td>
+                <td class="pad-bottom"></td>
+                <td class="pad-bottom"><div class="line" style="margin-top: 0px;">@customer_name</div></td>
+                <td class="right pad-bottom">Site:</td>
+                <td class="pad-bottom"></td>
+                <td class="pad-bottom"><div class="line"></div></td>
+            </tr>
+            <tr>
+                <td class="right pad-bottom">Person In Charge:</td>
+                <td class="pad-bottom"></td>
+                <td class="pad-bottom"><div class="line"></div></td>
+                <td class="right pad-bottom" style="margin-top: 0px;">Date:</td>
+                <td class="pad-bottom"></td>
+                <td class="pad-bottom"><div class="line" style="margin-top: 0px;">@document_date</div></td>
+            </tr>
+            <tr>
+                <td class="right pad-bottom">Contact No:</td>
+                <td class="pad-bottom"></td>
+                <td class="pad-bottom"><div class="line"></div></td>
+                <td class="right pad-bottom">Time Arrived:</td>
+                <td class="pad-bottom"></td>
+                <td class="pad-bottom"><div class="line"></div></td>
+            </tr>
+            <tr>
+                <td class="right pad-bottom">Machine Model:</td>
+                <td class="pad-bottom"></td>
+                <td class="pad-bottom"><div class="line"></div></td>
+                <td class="right pad-bottom">Time Finished:</td>
+                <td class="pad-bottom"></td>
+                <td class="pad-bottom"><div class="line"></div></td>
+            </tr>
+        </table>
+        <div class="satisfaction-box">
+            <h4>CUSTOMER SATISFACTION</h4>
+        </div>
+        <div class="satisfaction-box" style="margin-top: -2px;border-top: 0px;">
+            <table style="width: 210mm;">
+                <col width="20%">
+                <col width="20%">
+                <col width="20%">
+                <col width="20%">
+                <col width="20%">
+                <tr>
+                    <td><div class="row"><div class="tick-box"></div>*</div></td>
+                    <td><div class="row"><div class="tick-box"></div>* *</div></td>
+                    <td><div class="row"><div class="tick-box"></div>* * *</div></td>
+                    <td><div class="row"><div class="tick-box"></div>* * * *</div></td>
+                    <td><div class="row"><div class="tick-box"></div>* * * * *</div></td>
+                </tr>
+            </table>
+        </div>
+        <div class="comment-box">
+            <h4 style="text-decoration-line: underline;">Job Description</h4>
+            <table style="width: 100%;margin-top: 10px;">
+                <col width="5%">
+                <col width="95%">
+                @product_line
+            </table>
+        </div>
+        <table style="margin-top: 30px;">
+            <col width="80%">
+            <col width="20%">
+            <tr>
+                <td>Attended by:</td>
+                <td>Acknowledge by:</td>
+            </tr>
+        </table>
+        <table style="margin-top: 80px;">
+            <col width="70%">
+            <col width="30%">
+            <tr>
+                <td class="pad-bottom"> <div class="line" style="width: 30%;"></div></td>
+                <td class="pad-bottom"> <div class="line" style="width: 100%;"></div></td>
+            </tr>
+            <tr>
+                <td> Name :</td>
+                <td> Name :</td>
+            </tr>
+            <tr>
+                <td> Date :</td>
+                <td> Date :</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td> Chop & Signature :</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

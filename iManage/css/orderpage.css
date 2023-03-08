@@ -1,0 +1,58 @@
+.order-type-label{
+	font-size: 20px;
+	padding-bottom: 10px;
+}
+
+.order-page-link > a{
+    padding: 0.12em 0.0em; 
+    margin: 0 .0em;
+    text-decoration:none;
+}
+
+.orderItemDetails{
+	font-size: 14px;
+}
+
+#noStockTableId table,
+#noStockTableId th,
+#noStockTableId td{
+	border: 1px solid black !important;
+	font-size: 20px !important;
+
+}
+
+.noStockLabel{
+	width: 100% !important;
+}
+
+#dateFrom,
+#dateTo, #deliveryDateFrom, #deliveryDateTo{
+	background-color: white; 
+}
+
+.dateClear,
+.custClear{
+    background: white;
+	position: absolute;
+    right: 5px;
+    top: 0;
+    bottom: 0;
+    height: 25px;
+    margin: auto;
+    font-size: 25px;
+    cursor: pointer;
+    color: #000 !important;
+}
+
+#customerList{
+    resize: none;
+}
+/* for calander button*/
+.applyBtn{
+    width: 56px;
+    margin-top: 5px;
+}
+.cancelBtn{
+    width: 56px;
+    margin-top: 5px;
+}
