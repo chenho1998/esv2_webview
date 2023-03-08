@@ -816,10 +816,12 @@ function getOrderWithView($data){
 				if(!empty($select_order_approval) && !$isCustomer && $result['order_approved'] == 0 && $result["order_from"] == 'C'){
 
 					if($approve_comment_setting){
-						$a_view .='<button data-client="'.$client.'" data-userid="'.$data['salesperson_id'].'"  data-orderid="'.$result['order_id'].'" class="radius non_important_text approve-button-st approve-button-comment" style={width:25%;font-width: 10vw;}> Approve </button>';
+						$a_view .='<button data-client="'.$client.'" data-userid="'.$data['salesperson_id'].'"  data-orderid="'.$result['order_id'].'" class="radius non_important_text approve-button-st approve-button-comment display" style={width:25%;font-width: 10vw;}> Approve </button>';
 					}else{
-						$a_view .='<button data-client="'.$client.'" data-userid="'.$data['salesperson_id'].'"  data-orderid="'.$result['order_id'].'" class="radius non_important_text approve-button-st approve-button display" style={width:25%;font-width: 10vw;}> Approve </button><input style="float:right;" type="checkbox" class="checkedInvoice" id="checkedInvoice" name="checkedInvoice" value="checkedInvoice" data-client="'.$client.'" data-userid="'.$data['salesperson_id'].'"  data-orderid="'.$result['order_id'].'">';
+						$a_view .='<button data-client="'.$client.'" data-userid="'.$data['salesperson_id'].'"  data-orderid="'.$result['order_id'].'" class="radius non_important_text approve-button-st approve-button display" style={width:25%;font-width: 10vw;}> Approve </button>';
 					}
+
+					$a_view .= '<input style="float:right;" type="checkbox" class="checkedInvoice" id="checkedInvoice" name="checkedInvoice" value="checkedInvoice" data-client="'.$client.'" data-userid="'.$data['salesperson_id'].'"  data-orderid="'.$result['order_id'].'">';
 
 					$a_view .='<button data-client="'.$client.'" data-userid="'.$data['salesperson_id'].'" data-orderid="'.$result['order_id'].'" class="radius non_important_text reject-button-st reject-button display" style={width:25%;font-width: 10vw;}> Reject </button>';
 
@@ -964,7 +966,7 @@ function getOrderWithView($data){
 					if($approve_comment_setting){
 						$c_view .='<button data-client="'.$client.'" data-userid="'.$data['salesperson_id'].'"  data-orderid="'.$result['order_id'].'" class="radius non_important_text approve-button-st approve-button-comment" style={width:25%;font-width: 10vw;}> Approve </button>';
 					}else{
-						$c_view .='<input type="checkbox" id="" name="" value="">asdasd2<button data-client="'.$client.'" data-userid="'.$data['salesperson_id'].'"  data-orderid="'.$result['order_id'].'" class="radius non_important_text approve-button-st approve-button" style={width:25%;font-width: 10vw;}> Approve </button>';
+						$c_view .='<button data-client="'.$client.'" data-userid="'.$data['salesperson_id'].'"  data-orderid="'.$result['order_id'].'" class="radius non_important_text approve-button-st approve-button" style={width:25%;font-width: 10vw;}> Approve </button>';
 					}
 
 					$c_view .='<button data-client="'.$client.'" data-userid="'.$data['salesperson_id'].'" data-orderid="'.$result['order_id'].'" class="radius non_important_text reject-button-st reject-button" style={width:25%;font-width: 10vw;}> Reject </button>';
