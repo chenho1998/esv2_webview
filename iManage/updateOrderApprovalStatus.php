@@ -34,6 +34,8 @@ function updateOrderApprovalStatus($data)
     
     $salesperson_id = $data['salesperson_id'];
     $order_id = $data['order_id'];
+    $order_id = explode(',',$order_id);
+    $order_id = "'" . implode("','", $order_id) . "'";
     $action = $data['action'];
     $comment = str_replace(array("\n","\r"),"",$data['comment']);
     $comment = trim($comment);
@@ -49,12 +51,14 @@ function updateOrderApprovalStatus($data)
         }
     }
     
+    // var_dump("SELECT cust_code FROM cms_order WHERE order_id IN ({$order_id})");
+    // dd();
     if($client == 'oasisqi' || $client == 'fuiwah'){
         if($action == 'approve'){
-            $db->query("update cms_order set order_status = 2 where order_id = '{$order_id}'");
+            $db->query("update cms_order set order_status = 2 where order_id IN ({$order_id})");
         }
         if($action == 'reject'){
-            $db->query("update cms_order set order_status = 0, order_comment = '{$comment}' where order_id = '{$order_id}'");
+            $db->query("update cms_order set order_status = 0, order_comment = '{$comment}' where order_id IN ({$order_id})");
         }
         $json_data['result'] = 1;
         return json_encode($json_data,JSON_UNESCAPED_UNICODE);
@@ -73,7 +77,7 @@ function updateOrderApprovalStatus($data)
         if($client == 'hcyun'){
             $approve_order_status = 2;
         }
-        $sql = "UPDATE cms_order SET order_approved = 1, order_approver = '{$staff_code}',order_status = {$approve_order_status}, order_comment = '{$comment}', order_approved_log = '{$staff_code}|{$now}|{$approve_order_status}' WHERE order_id = '{$order_id}'";
+        $sql = "UPDATE cms_order SET order_approved = 1, order_approver = '{$staff_code}',order_status = {$approve_order_status}, order_comment = '{$comment}', order_approved_log = '{$staff_code}|{$now}|{$approve_order_status}' WHERE order_id IN ({$order_id})";
         if($db->query($sql)){
             $json_data['result'] = 1;
             $messageToCustomer = "Your order ({$order_id}) has been approved by {$staff_code}";
@@ -82,14 +86,14 @@ function updateOrderApprovalStatus($data)
         }
     }
     if($action == 'reject'){
-        $sql = "UPDATE cms_order SET order_approved = 2, order_approver = '{$staff_code}', order_comment = '{$comment}', order_approved_log = '{$staff_code}|{$now}|2'  WHERE order_id = '{$order_id}'";
+        $sql = "UPDATE cms_order SET order_approved = 2, order_approver = '{$staff_code}', order_comment = '{$comment}', order_approved_log = '{$staff_code}|{$now}|2'  WHERE order_id IN ({$order_id})";
         if($db->query($sql)){
             $json_data['result'] = 1;
             $messageToCustomer = "Your order ({$order_id}) has been rejected by {$staff_code}";
             if($comment){
                 $messageToCustomer .= "\n{$staff_code} says: {$comment}";
             }
-            $db->query("UPDATE cms_product p LEFT JOIN cms_order_item o ON o.product_code = p.product_code SET product_current_quantity = product_current_quantity + o.quantity WHERE o.order_id = '{$order_id}' AND o.cancel_status = 0;");
+            $db->query("UPDATE cms_product p LEFT JOIN cms_order_item o ON o.product_code = p.product_code SET product_current_quantity = product_current_quantity + o.quantity WHERE o.order_id IN ({$order_id}) AND o.cancel_status = 0;");
         }else{
             $json_data['result'] = 0;
         }
@@ -100,7 +104,7 @@ function updateOrderApprovalStatus($data)
     return json_encode($json_data,JSON_UNESCAPED_UNICODE);
 }
 function getCustomerCodeAndDeviceToken($db,$order_id){
-    $db->query("SELECT cust_code FROM cms_order WHERE order_id = '{$order_id}'");
+    $db->query("SELECT cust_code FROM cms_order WHERE order_id IN ({$order_id})");
     $cust_code = '';
     if($db->get_num_rows() != 0)
     {

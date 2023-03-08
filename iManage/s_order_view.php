@@ -322,7 +322,10 @@ if(isset($_GET['userId']) && isset($_GET['client'])){
 <div class="divider"></div>
 <div class="divider"></div>
 
-<div id="ordersDiv">
+<div id="ordersDiv" style="margin-bottom:100px">
+
+</div>
+<div id="showApprovement" class="approvement">
 
 </div>
 
@@ -436,6 +439,26 @@ if(isset($_GET['userId']) && isset($_GET['client'])){
             updateOrderApprovalStatus(data);
         });
 
+        var myarray = [];
+        $(document).on('click', '.checkedInvoice', function() {
+            $('#showApprovement').empty();
+            var order_id = $(this).attr('data-orderid');
+            var salesperson_id = $(this).attr('data-userid');
+            var client = $(this).attr('data-client');
+
+            if(this.checked){
+                myarray.push(order_id);
+                $(".display").addClass("display-none");
+            }else{
+                myarray.splice(myarray.findIndex(x => x === order_id), 1);
+            }
+            if(myarray.length == 0){
+                $(".display").removeClass("display-none");
+            }
+            if(myarray.length > 0){
+                $('#showApprovement').append('<button data-client="'+client+'" data-userid="'+salesperson_id+'"  data-orderid="'+myarray+'" class="radius non_important_text approve-button-st approve-button" style={width:25%;font-width: 10vw;}> Approve </button><button data-client="'+client+'" data-userid="'+salesperson_id+'" data-orderid="'+myarray+'" class="radius non_important_text reject-button-st reject-button" style={width:25%;font-width: 10vw;}> Reject </button>');
+            }
+        });
 
         $(document).on('click', '.approve-button-comment', async function() {
             // reject here
@@ -903,6 +926,10 @@ if(isset($_GET['userId']) && isset($_GET['client'])){
                             }
                         }
                     }
+
+                    // $('body').on('click', '#checkedInvoice', function() {
+                    //     console.log("click");
+                    // }
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     console.warn(xhr);
@@ -1095,7 +1122,7 @@ if(isset($_GET['userId']) && isset($_GET['client'])){
                 var status = decodedJson.msg;
                 // debugger
                 if(status.msg){
-                    //alert(status.msg);
+                    alert(status.msg);
                     location.reload();
                 }
             },
@@ -1158,7 +1185,7 @@ if(isset($_GET['userId']) && isset($_GET['client'])){
                 var status = decodedJson.msg;
                 // debugger
                 if(status.msg){
-                    //alert(status.msg);
+                    alert(status.msg);
                     location.reload();
                 }
             },
@@ -1709,6 +1736,20 @@ if(isset($_GET['userId']) && isset($_GET['client'])){
         border-radius: 3px;
         height: 40px;
         box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)
+    }
+
+    .approvement {
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        background-color: white;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .display-none {
+        display: none;
     }
 </style>
 </body>
